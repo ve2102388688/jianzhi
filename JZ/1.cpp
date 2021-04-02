@@ -6,7 +6,7 @@ using namespace std;
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
- *  \date       2020-1-31
+ *  \date       2020-3-28
  * 
  *  \param[in] target   目标值
  *  \param[in] array    输入二维数组
