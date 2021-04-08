@@ -2,7 +2,7 @@
 using namespace std;
 
 
-/** \brief      reOrderArray  斐波那契数列
+/** \brief      reOrderArray  调整数组顺序使奇数位于偶数前面
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 

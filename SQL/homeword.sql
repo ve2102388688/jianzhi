@@ -33,6 +33,7 @@ join
 on
 	t.deptno=e.deptno and t.maxsal=e.sal;
 
+
 -- 2、哪些人的薪水在部门的平均薪水之上
 select
 	e.deptno, e.ename, e.sal, t.avgsal 
@@ -44,7 +45,22 @@ on
 	e.deptno=t.deptno and e.sal>t.avgsal;
 
 
+-- 3、取得部门中（所有人的）平均的薪水等级
+
+select
+	t.deptno, s.salgrade
+from
+	salgrade s
+join
+	(select deptno, avg(sal) avgsal from emp group by deptno) t
+on
+	t.avgsal between s.losal and s.hisal; 
 
 
-
-
+-- 4、
+select
+	t.deptno, avg(t.grade) avggrade
+from
+	(select e.deptno, s.grade from emp e join salgrade s on e.sal between s.losal and s.hisal) t
+group by
+	t.deptno;
