@@ -35,6 +35,8 @@ on
 
 
 -- 2、哪些人的薪水在部门的平均薪水之上
+-- 先计算部门的平均薪水
+-- 选取大于结果值
 select
 	e.deptno, e.ename, e.sal, t.avgsal 
 from
@@ -45,10 +47,11 @@ on
 	e.deptno=t.deptno and e.sal>t.avgsal;
 
 
--- 3、取得部门中（所有人的）平均的薪水等级
-
+-- 3、取得部门中（所有人的）平均薪水的等级
+-- 先计算部门的平均薪水
+-- 部门的平均薪水等级
 select
-	t.deptno, s.salgrade
+	t.deptno, s.grade
 from
 	salgrade s
 join
@@ -57,10 +60,99 @@ on
 	t.avgsal between s.losal and s.hisal; 
 
 
--- 4、
+-- 4、取得部门中（所有人的）平均的薪水等级
+-- 先计算每个人的薪水等级
+-- 按部门求平均值
 select
 	t.deptno, avg(t.grade) avggrade
 from
 	(select e.deptno, s.grade from emp e join salgrade s on e.sal between s.losal and s.hisal) t
 group by
 	t.deptno;
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+select 
+	ename, sal
+from
+	emp
+order by
+	sal desc
+limit 1;
+
+
+-- 5、取得平均薪水最高的部门的部门编号
+-- 部门的平均薪水
+-- 降序取第一个
+select 
+	deptno, avg(sal) avgsal 
+from
+	emp 
+group by
+	deptno
+order by
+	avgsal desc
+limit 1;
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
+
+
+
+
+-- 4、不准用组函数（Max），取得最高薪水
+
+
