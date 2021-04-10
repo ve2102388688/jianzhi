@@ -3,64 +3,52 @@
 using namespace std;
 
 
-/** \brief      ReverseList  反转链表
+/** \brief      helper  辅助函数
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
- *  \date       2020-4-7
+ *  \date       2020-4-10
+ * 
+ *  \param[in]  sequence   输入数组
+ *  \param[in]  start      起始位置
+ *  \param[in]  end        终止位置
+ *  \return                是否合法的后序遍历
  */
-vector<int> printMatrix(vector<vector<int>>& matrix) {
-    int m = matrix.size();
-    int n = matrix[0].size();
+bool helper(vector<int>& sequence, int start, int end) {
+    if(start > end)
+        return false;
+    int rootVal = sequence[end];
     
-    int size = m * n;
-    vector<int> res;
-    for (int k = 0, cycle = 0, i = 0, j = 0; k < size; ) {
-        while (j < n-cycle) {
-            res.push_back(matrix[i][j]);
-            ++j, ++k;
-        }
-        if (k >= size)
+    int i = start;
+    for (; i < end; ++i)                            /**<找到第一个大于根结点的结点 */
+        if (sequence[i] > rootVal)
             break;
-
-        --j;                                    /**<每次遍历方向回退一个，另外一个方向前进1 */
-        while (++i < m-cycle) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        --i;
-        while (--j >= cycle) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        ++j;
-        while (--i >= cycle+1) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        ++i, ++j;
-        ++cycle;                                /**<圈的数目加1 */
-    }
-    return res;
+    
+    int j = i;
+    for (; j < end; ++j)                            /**<后续结点有小于根结点，false */
+        if (sequence[j] < rootVal)
+            return false;
+    
+    bool left = true;                               /**<i只有大于start才有左子树 */
+    if (i > start)
+        left = helper(sequence, start, i-1);        /**<[start, i-1] */
+    
+    bool right = true;                              /**<i只有小于end才有右子树，不能取等于，因为最后一个是根结点 */
+    if (i < end)
+        right = helper(sequence, i, end-1);
+    
+    return (left&&right);
 }
 
+bool VerifySquenceOfBST(vector<int>& sequence) {
+    return helper(sequence, 0, sequence.size()-1);
+}
 
 int main(int argc, char *argv[])
 {
-    vector<vector<int>> matrix = {{1, 2,3}, {4, 5,6}, {7,8,9}};
-    vector<int> output = printMatrix(matrix);
-    for (const auto&e : output)
-        cout << e << ' ';
-    cout << '\n';
+    std::vector<int> nums = {7,4,6,5};
+    bool output = VerifySquenceOfBST(nums);
+    cout << output << '\n';
 
     return 0;
 }

@@ -3,7 +3,7 @@
 using namespace std;
 
 
-/** \brief      Print  从上往下打印二叉树
+/** \brief      Print  按之字形顺序打印二叉树
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
@@ -19,21 +19,30 @@ vector<vector<int>> Print(TreeNode* pRoot) {
     vector<vector<int>> res;
     queue<TreeNode*> Q;
     Q.push(pRoot);
+    int level = 1;
+    
     while (!Q.empty()) {
         vector<int> temp;
         int size = Q.size();
         while (size) {
             TreeNode *node = Q.front(); Q.pop();
             temp.push_back(node->val);
+
             if (node->left) Q.push(node->left);
             if (node->right) Q.push(node->right);
+
             --size;
         }
-        res.push_back(temp);
+        if (level&1)
+            res.push_back(temp);
+        else {
+            reverse(temp.begin(), temp.end());              /**<偶数行反转 */
+            res.push_back(temp);
+        }
+        ++level;
     }
     return res;
 }
-
 
 int main(int argc, char *argv[])
 {
