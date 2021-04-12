@@ -3,7 +3,7 @@
 using namespace std;
 
 
-/** \brief      ReverseList  反转链表
+/** \brief      printMatrix  顺时针打印矩阵
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 

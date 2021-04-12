@@ -2,24 +2,29 @@
 using namespace std;
 
 
-/** \brief      NumberOf1  二进制中1的个数
+/** \brief      rectCover  矩形覆盖
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
  *  \date       2020-4-6
  */
-int NumberOf1(int n) {
-    int res = 0;    
-    while (n) {
-        ++res;
-        n = n & (n-1);      /**<Brian Kernighan算法 */
+int rectCover(int number) {
+    if (number<=2)
+        return number;
+    
+    int dp_1 = 1;
+    int dp_2 = 2;
+    for (int i = 3; i <= number; ++i) {
+        int temp = dp_2;
+        dp_2 += dp_1;
+        dp_1 = temp;
     }
-    return res;
+    return dp_2;
 }
 
 int main(int argc, char *argv[])
 {
-    int output = NumberOf1(4);
+    int output = rectCover(4);
     cout << output << '\n';
     
     return 0;

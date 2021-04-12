@@ -2,33 +2,39 @@
 using namespace std;
 
 
-/** \brief      reOrderArray  调整数组顺序使奇数位于偶数前面
+/** \brief      Power  数值的整数次方
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
  *  \date       2020-4-6
+ *  \remark     递归快速幂
  */
-vector<int> reOrderArray(vector<int>& array) {
-    int size = array.size();
+double PowerUnsigned(double base, int exponent) {
+    if (exponent == 1)
+        return base;
+    else if(exponent == 0)
+        return 1;
     
-    for (int i = 0; i < size-1; ++i) {
-        while(i>=0 && (array[i]&1)==0 && (array[i+1]&1)==1) {       /**<当前是偶数，下一个是奇数，交换 */
-            int temp = array[i];
-            array[i] = array[i+1];
-            array[i+1] = temp;
-            --i;
-        }
-    }
-    return array;
+    double res = PowerUnsigned(base, exponent>>1);  /**<不管是奇数还是偶数，都会向下取整 */
+    res *= res;
+    if (exponent&1)                                 /**<奇数 */
+        res *= base;
+    return res;
+}
+
+double Power(double base, int exponent) {
+    if (exponent == 0)
+        return 1;
+    double res = PowerUnsigned(base, abs(exponent));
+    if (exponent < 0)                               /**<负指数 */
+        res = 1 / res;
+    return res;
 }
 
 int main(int argc, char *argv[])
 {
-    std::vector<int> nums = {3,4,5,1,2};
-    vector<int> output = reOrderArray(nums);
-    for (const auto&e : output)
-        cout << e << ' ';
-
-    cout << '\n';
+    double output = Power(4, 3);
+    cout << output << '\n';
+    
     return 0;
 }

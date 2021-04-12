@@ -14,7 +14,7 @@ bool isSame(TreeNode *s, TreeNode *t) {
 }
 
 
-/** \brief      HasSubtree  反转链表
+/** \brief      HasSubtree  树的子结构
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 

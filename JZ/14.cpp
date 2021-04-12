@@ -3,29 +3,33 @@
 using namespace std;
 
 
-/** \brief      ReverseList  反转链表
+/** \brief      FindKthToTail  链表中倒数第k个结点
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
  *  \date       2020-4-7
  * 
- *  \param[in]  pHead 链表头节点
+ *  \param[in]  pHead   链表头结点
+ *  \param[in]  k       输入k
  */
-ListNode* ReverseList(ListNode* pHead) {
+ListNode* FindKthToTail(ListNode* pHead, int k) {
     if (pHead == nullptr)
         return nullptr;
-    
-    ListNode *newHead = nullptr;
-    ListNode *p = pHead; 
-    while(p != nullptr) {
-        ListNode *temp = p->next;
-        p->next = newHead;
-        newHead = p;
-        p = temp;
-    }
-    return newHead;
-}
 
+    ListNode *fast = pHead;                     /**<快指针先走K步 */
+    while (k--) {
+        if (fast == nullptr)
+            return nullptr;
+        fast = fast->next;
+    }
+    
+    ListNode *slow = pHead;                     /**<快慢指针同时走 */
+    while (fast != nullptr) {
+        fast = fast->next;
+        slow = slow->next;
+    }
+    return slow;
+}
 
 int main(int argc, char *argv[])
 {
@@ -33,7 +37,7 @@ int main(int argc, char *argv[])
     vector<int> s = {1,2,3,4,5};
     ListNode *list = creatList(s);
 
-    list = ReverseList(list);       /**<do some job */
+    list = FindKthToTail(list, 2);       /**<do some job */
 
     printList(list);
     std::cout << "\n";

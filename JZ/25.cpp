@@ -2,6 +2,15 @@
 #include "mycommon.hpp"
 using namespace std;
 
+struct RandomListNode {
+    int label;
+    struct RandomListNode *next, *random;
+    RandomListNode(int x) :
+            label(x), next(NULL), random(NULL) {
+    }
+};
+
+
 
 /** \brief      ReverseList  反转链表
  *  \author     wzk
@@ -9,48 +18,43 @@ using namespace std;
  *  \version    1.0 
  *  \date       2020-4-7
  */
-vector<int> printMatrix(vector<vector<int>>& matrix) {
-    int m = matrix.size();
-    int n = matrix[0].size();
-    
-    int size = m * n;
-    vector<int> res;
-    for (int k = 0, cycle = 0, i = 0, j = 0; k < size; ) {
-        while (j < n-cycle) {
-            res.push_back(matrix[i][j]);
-            ++j, ++k;
-        }
-        if (k >= size)
-            break;
-
-        --j;                                    /**<每次遍历方向回退一个，另外一个方向前进1 */
-        while (++i < m-cycle) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        --i;
-        while (--j >= cycle) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        ++j;
-        while (--i >= cycle+1) {
-            res.push_back(matrix[i][j]);
-            ++k;
-        }
-        if (k >= size)
-            break;
-
-        ++i, ++j;
-        ++cycle;                                /**<圈的数目加1 */
+void copyCurr(RandomListNode* pHead) {
+    for (RandomListNode *p = pHead; p != nullptr; p = p->next->next) {
+        RandomListNode *copy1Time = new RandomListNode(p->label);
+        copy1Time->next = p->next;
+        copy1Time->random = nullptr;
+        
+        p->next = copy1Time;
     }
-    return res;
+}
+
+void cennectRandom(RandomListNode* pHead) {
+    for (RandomListNode *p = pHead; p != nullptr; p = p->next->next) {
+        if (p->random != nullptr) {
+            p->next->random = p->random->next;
+        }
+    }
+}
+
+RandomListNode* split(RandomListNode* pHead) {
+    RandomListNode *newHead = pHead->next;
+    RandomListNode *p1 = pHead->next;
+    for (RandomListNode *p = pHead; p != nullptr;) {
+        p->next = p1->next;
+        p1->next = p1->next->next;
+        
+        p = p->next->next;
+        p1 = p1->next;
+    }
+    return newHead;
+}
+
+RandomListNode* Clone(RandomListNode* pHead) {
+    if (pHead == nullptr)
+        return nullptr;
+    copyCurr(pHead);
+    cennectRandom(pHead);
+    return split(pHead);
 }
 
 

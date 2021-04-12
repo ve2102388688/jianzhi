@@ -2,31 +2,36 @@
 using namespace std;
 
 
-/** \brief      Fibonacci  斐波那契数列
+/** \brief      minNumberInRotateArray  旋转数组的最小数字
  *  \author     wzk
  *  \copyright  GNU Public License
  *  \version    1.0 
- *  \date       2020-4-6
+ *  \date       2020-4-7
+ * 
+ *  \param[in]  rotateArray 输入数组
+ *  \return     最小的元素值
  */
-int Fibonacci(int n) {
-    if (n <= 1)
-        return n;
+int minNumberInRotateArray(vector<int> rotateArray) {
+    int low = 0, high = rotateArray.size()-1;
     
-    int dp_1 = 0;   
-    int dp_2 = 1;
-    for (int i = 2; i <= n; ++i) {
-        int temp = dp_2;                    /**<先缓存dp_2 */
-        dp_2 = dp_1 + dp_2;                 /**<f(n) = f(n-1)+f(n-2) */
-        dp_1 = temp;
+    while (low < high) {
+        int mid = low + (high-low)/2;
+        if (low+1 == high)
+            return rotateArray[high];
+        else if (rotateArray[mid] >= rotateArray[low]) {
+            low = mid;
+        } else if (rotateArray[mid] <= rotateArray[high]){
+            high = mid;
+        }
     }
-    
-    return dp_2;
+    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    int output = Fibonacci(4);
+    vector<int> nums = {4,5, 1,2,3};
+    int output = minNumberInRotateArray(nums);
     cout << output << '\n';
-    
+
     return 0;
 }
