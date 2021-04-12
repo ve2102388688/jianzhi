@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
     printList(output);
     std::cout << "\n";
 
-    freeList(output);
-    delete output;                               /**<删除链表 */
+    freeList(output);                            /**<删除链表 */
     return 0;
 }
